@@ -18,7 +18,15 @@ const listWithTwoBlogs = [
         url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
         likes: 10,
         __v: 0
-    }
+    },
+    {
+        _id: '222',
+        title: 'Cool post',
+        author: 'A. Hurme',
+        url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+        likes: 2,
+        __v: 0
+    },
 ]
 
 
@@ -32,7 +40,7 @@ test('1. dummy returns one', () => {
 describe('2. total likes on a blog list', () => {
     test('when list has only one blog equals the likes of that, multiple work as well', () => {
         const result = listHelper.totalLikes(listWithTwoBlogs)
-        expect(result).toBe(15)
+        expect(result).toBe(17)
     })
 })
 
@@ -48,5 +56,12 @@ describe('3. the blog with most likes is identified', () =>{
             likes: 10,
             __v: 0
         })
+    })
+})
+
+describe('4. the writer with most blog posts accompanied by the amount of blogs', () => {
+    test('returning the writer with most blogs', ()=>{
+        const result = listHelper.mostPosts(listWithTwoBlogs)
+        expect(result).toEqual('Edsger W. Dijkstra')
     })
 })
