@@ -5,14 +5,14 @@ const initialBlogs = [
         "title": "Test post",
         "author": "Anders",
         "url": "www.lol.com",
-        "likes": 0,
+        "likes": 5,
         "id": "62e8e26480267b4a696be831"
     },
     {
         "title": "Test post 2 ",
         "author": "Anders",
         "url": "www.lol.com/2",
-        "likes": 0,
+        "likes": 10,
         "id": "62e8ea947a3fa9523e406e08"
     },
 

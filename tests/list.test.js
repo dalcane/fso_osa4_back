@@ -1,4 +1,3 @@
-const {totalLikes} = require("../utils/list_helper");
 const listHelper = require("../utils/list_helper");
 const dummyTest = require('../utils/list_helper').dummy
 
@@ -30,22 +29,22 @@ const listWithTwoBlogs = [
 ]
 
 
-test('1. dummy returns one', () => {
+test('4.3 dummy returns one', () => {
     const blogs = []
 
     const result = dummyTest(blogs)
     expect(result).toBe(1)
 })
 
-describe('2. total likes on a blog list', () => {
+describe('4.4. total likes on a blog list', () => {
     test('when list has only one blog equals the likes of that, multiple work as well', () => {
         const result = listHelper.totalLikes(listWithTwoBlogs)
         expect(result).toBe(17)
     })
 })
 
-describe('3. the blog with most likes is identified', () =>{
-    test('this should find the most liked blog and return it', () =>{
+describe('4.5. the blog with most likes is identified', () =>{
+    test('returns the most liked blog and return it', () =>{
         const result = listHelper.favoriteBlog(listWithTwoBlogs)
         expect(result).toEqual(
             {
@@ -59,9 +58,20 @@ describe('3. the blog with most likes is identified', () =>{
     })
 })
 
-describe('4. the writer with most blog posts accompanied by the amount of blogs', () => {
-    test('returning the writer with most blogs', ()=>{
-        const result = listHelper.mostPosts(listWithTwoBlogs)
-        expect(result).toEqual('Edsger W. Dijkstra')
+describe('4.6 most blogs by writer', () => {
+    test('returning the writer with most blogs along with the amount of blogs', ()=>{
+        const result = listHelper.mostBlogs(listWithTwoBlogs)
+        expect(result).toEqual(["Edsger W. Dijkstra", 2]
+        )
+    })
+})
+
+describe('4.7 most liked writer', () =>{
+    test('returning most liked writer', ()=>{
+        const result = listHelper.mostLikes(listWithTwoBlogs)
+        expect(result).toEqual({
+            author: "Edsger W. Dijkstra",
+            likes: 15,
+        })
     })
 })
