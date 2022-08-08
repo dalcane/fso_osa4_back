@@ -1,10 +1,20 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const {request, response} = require("express");
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        return authorization.substring(7)
+    }
+    return null
+}
 
 //showing all blog posts
 blogsRouter.get('/',async (request, response) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user')
     response
         .status(200)
         .json(blogs)
@@ -18,9 +28,26 @@ blogsRouter.get("/:id", async (request, response) => {
 
 //posting a new blog
 blogsRouter.post('/', async (request, response, next) => {
-    const blog = new Blog(request.body)
+    const body = request.body
+
+    const token = getTokenFrom(request)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+
+    const blog = new Blog( {
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        user: user._id
+
+    })
     try {
         const savedBlog = await blog.save()
+        user.blogs = user.blogs.concat(savedBlog._id)
+        await user.save()
         response
             .status(201)
             .json(savedBlog)
